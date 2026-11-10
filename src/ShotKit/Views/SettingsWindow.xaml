@@ -1,0 +1,79 @@
+<Window x:Class="ShotKit.Views.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShotKit - Configurações" Width="560" SizeToContent="Height"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen" FontFamily="Segoe UI" FontSize="13">
+    <Grid Margin="14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TabControl Padding="12">
+            <TabItem Header="Geral">
+                <StackPanel>
+                    <Label Content="_Pasta para salvar:" Target="{Binding ElementName=FolderBox}" Padding="0,0,0,4" />
+                    <DockPanel>
+                        <Button x:Name="BrowseButton" DockPanel.Dock="Right" Content="_Procurar..." Margin="6,0,0,0" Padding="10,3" />
+                        <TextBox x:Name="FolderBox" Padding="3" />
+                    </DockPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,12,0,0">
+                        <Label Content="_Formato:" Target="{Binding ElementName=FormatBox}" Padding="0,0,8,0" VerticalAlignment="Center" />
+                        <ComboBox x:Name="FormatBox" Width="110">
+                            <ComboBoxItem Content="PNG" />
+                            <ComboBoxItem Content="JPG" />
+                            <ComboBoxItem Content="BMP" />
+                        </ComboBox>
+                        <Label Content="_Qualidade JPG:" Target="{Binding ElementName=QualitySlider}" Padding="16,0,8,0" VerticalAlignment="Center" />
+                        <Slider x:Name="QualitySlider" Width="120" Minimum="50" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding Value, ElementName=QualitySlider}" Margin="6,0,0,0" VerticalAlignment="Center" />
+                    </StackPanel>
+
+                    <CheckBox x:Name="SoundBox" Content="Tocar _som ao capturar" Margin="0,14,0,0" />
+                    <CheckBox x:Name="ClipboardBox" Content="Ao _salvar, copiar também para a área de transferência" Margin="0,8,0,0" />
+                    <CheckBox x:Name="StartupBox" Content="_Iniciar com o Windows" Margin="0,8,0,0" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0,14,0,0">
+                        <Label Content="Idioma do _OCR:" Target="{Binding ElementName=OcrBox}" Padding="0,0,8,0" VerticalAlignment="Center" />
+                        <ComboBox x:Name="OcrBox" Width="280" />
+                    </StackPanel>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Atalhos">
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap" Foreground="#FF5F6B7A" Margin="0,0,0,10"
+                               Text="Clique numa caixa e pressione a combinação desejada. Backspace ou Delete remove o atalho." />
+                    <Grid x:Name="HotkeyGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="200" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                    <TextBlock x:Name="HotkeyWarning" TextWrapping="Wrap" Foreground="#FFB3261E" Margin="0,10,0,0" Visibility="Collapsed" />
+                    <TextBlock TextWrapping="Wrap" Foreground="#FF5F6B7A" Margin="0,12,0,0" FontSize="12"
+                               Text="Dica: no Windows 11, a tecla PrintScreen abre a Ferramenta de Captura por padrão. Para usá-la aqui, desative 'Usar a tecla Print Screen para abrir a captura de tela' em Configurações > Acessibilidade > Teclado." />
+                    <Button x:Name="ResetHotkeysButton" Content="_Restaurar padrões" HorizontalAlignment="Left" Margin="0,12,0,0" Padding="10,3" />
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Sobre">
+                <StackPanel>
+                    <TextBlock Text="ShotKit" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock x:Name="VersionText" Foreground="#FF5F6B7A" Margin="0,2,0,10" />
+                    <TextBlock TextWrapping="Wrap"
+                               Text="Captura de tela com anotações, OCR, imagens fixadas e captura com rolagem. Sem telemetria, sem anúncios e sem compras: nenhum dado sai do seu computador." />
+                    <TextBlock TextWrapping="Wrap" Margin="0,10,0,0" Foreground="#FF5F6B7A" FontSize="12">
+                        Dados locais: <Run x:Name="DataFolderRun" />
+                    </TextBlock>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <Button x:Name="OkButton" Content="Salvar" Style="{StaticResource PrimaryButton}" IsDefault="True" />
+            <Button Content="Cancelar" Margin="8,0,0,0" Padding="16,6" MinWidth="90" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,98 @@
+<Window x:Class="ShotKit.Views.CaptureOverlay"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShotKit - Captura"
+        WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" Topmost="True"
+        Background="Black" UseLayoutRounding="True" SnapsToDevicePixels="True"
+        Cursor="Cross" FocusVisualStyle="{x:Null}">
+
+    <!-- Root usa 1 unidade = 1 pixel físico (LayoutTransform ajustado no código conforme o DPI). -->
+    <Canvas x:Name="Root" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+        <Image x:Name="BackgroundImage" Stretch="Fill"
+               RenderOptions.BitmapScalingMode="NearestNeighbor" />
+
+        <!-- Máscara escura com "furo" na seleção. -->
+        <Path x:Name="DimMask" Fill="#80000000" IsHitTestVisible="False" />
+
+        <!-- Destaque da janela sob o cursor (antes de selecionar). -->
+        <Rectangle x:Name="HoverRect" Stroke="{StaticResource Accent}" StrokeThickness="3"
+                   Fill="#152F80ED" IsHitTestVisible="False" Visibility="Collapsed" />
+
+        <!-- Anotações em coordenadas absolutas do instantâneo, recortadas à seleção. -->
+        <Canvas x:Name="AnnotationLayer" IsHitTestVisible="False" />
+
+        <!-- Moldura da seleção. -->
+        <Rectangle x:Name="SelectionBorder" Stroke="{StaticResource Accent}" StrokeThickness="2"
+                   IsHitTestVisible="False" Visibility="Collapsed" />
+
+        <Canvas x:Name="HandleLayer" Visibility="Collapsed" />
+
+        <!-- Rótulo com o tamanho da seleção. -->
+        <Border x:Name="SizeLabel" Background="#DD1F2328" CornerRadius="3" Padding="6,2"
+                IsHitTestVisible="False" Visibility="Collapsed">
+            <TextBlock x:Name="SizeText" Foreground="White" FontFamily="Segoe UI" FontSize="12" />
+        </Border>
+
+        <!-- Lupa com coordenadas e cor do pixel. -->
+        <Border x:Name="Magnifier" Background="#EE1F2328" CornerRadius="4" Padding="4"
+                IsHitTestVisible="False" Visibility="Collapsed">
+            <StackPanel>
+                <Grid Width="120" Height="120">
+                    <Rectangle x:Name="MagnifierView" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                    <Rectangle Width="8" Height="8" Stroke="#FF2F80ED" StrokeThickness="1.5" />
+                </Grid>
+                <TextBlock x:Name="MagnifierText" Foreground="White" FontFamily="Consolas" FontSize="12"
+                           Margin="2,4,2,0" />
+            </StackPanel>
+        </Border>
+
+        <!-- Barra de ferramentas de anotação. -->
+        <Border x:Name="Toolbar" Background="{StaticResource ToolbarBackground}" CornerRadius="7"
+                Padding="4" Visibility="Collapsed" Cursor="Arrow">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="ToolRect" Style="{StaticResource ToolToggle}" Content="&#xE739;" ToolTip="Retângulo (R)" AutomationProperties.Name="Retângulo" />
+                <RadioButton x:Name="ToolEllipse" Style="{StaticResource ToolToggle}" Content="&#xE91F;" ToolTip="Elipse (E)" AutomationProperties.Name="Elipse" />
+                <RadioButton x:Name="ToolLine" Style="{StaticResource ToolToggle}" Content="&#xE738;" ToolTip="Linha (L)" AutomationProperties.Name="Linha" />
+                <RadioButton x:Name="ToolArrow" Style="{StaticResource ToolToggle}" Content="&#xE72A;" ToolTip="Seta (A)" AutomationProperties.Name="Seta" />
+                <RadioButton x:Name="ToolPen" Style="{StaticResource ToolToggle}" Content="&#xE70F;" ToolTip="Lápis (P)" AutomationProperties.Name="Lápis" />
+                <RadioButton x:Name="ToolHighlighter" Style="{StaticResource ToolToggle}" Content="&#xE7E6;" ToolTip="Marca-texto (H)" AutomationProperties.Name="Marca-texto" />
+                <RadioButton x:Name="ToolText" Style="{StaticResource ToolToggle}" Content="&#xE8D2;" ToolTip="Texto (T)" AutomationProperties.Name="Texto" />
+                <RadioButton x:Name="ToolStep" Style="{StaticResource ToolToggle}" FontFamily="Segoe UI" FontWeight="Bold" FontSize="14" Content="1" ToolTip="Numeração (N)" AutomationProperties.Name="Numeração" />
+                <RadioButton x:Name="ToolMosaic" Style="{StaticResource ToolToggle}" FontFamily="Segoe UI Symbol" FontSize="18" Content="&#x25A6;" ToolTip="Mosaico (M)" AutomationProperties.Name="Mosaico" />
+                <RadioButton x:Name="ToolBlur" Style="{StaticResource ToolToggle}" FontFamily="Segoe UI Symbol" FontSize="18" Content="&#x25CD;" ToolTip="Desfoque (B)" AutomationProperties.Name="Desfoque" />
+                <Border Style="{StaticResource ToolbarSeparator}" />
+                <Button x:Name="BtnUndo" Style="{StaticResource ToolButton}" Content="&#xE7A7;" ToolTip="Desfazer (Ctrl+Z)" AutomationProperties.Name="Desfazer" />
+                <Button x:Name="BtnRedo" Style="{StaticResource ToolButton}" Content="&#xE7A6;" ToolTip="Refazer (Ctrl+Y)" AutomationProperties.Name="Refazer" />
+                <Border Style="{StaticResource ToolbarSeparator}" />
+                <Button x:Name="BtnScroll" Style="{StaticResource ToolButton}" FontFamily="Segoe UI Symbol" FontSize="18" Content="&#x21D5;" ToolTip="Captura com rolagem" AutomationProperties.Name="Captura com rolagem" />
+                <Button x:Name="BtnOcr" Style="{StaticResource ToolButton}" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="11" Content="OCR" ToolTip="Extrair texto (OCR)" AutomationProperties.Name="Extrair texto" />
+                <Button x:Name="BtnPin" Style="{StaticResource ToolButton}" Content="&#xE718;" ToolTip="Fixar na tela (F3)" AutomationProperties.Name="Fixar na tela" />
+                <Button x:Name="BtnSave" Style="{StaticResource ToolButton}" Content="&#xE74E;" ToolTip="Salvar (Ctrl+S)" AutomationProperties.Name="Salvar" />
+                <Border Style="{StaticResource ToolbarSeparator}" />
+                <Button x:Name="BtnCancel" Style="{StaticResource ToolButton}" Content="&#xE711;" ToolTip="Cancelar (Esc)" AutomationProperties.Name="Cancelar" />
+                <Button x:Name="BtnCopy" Style="{StaticResource ToolButton}" Content="&#xE73E;" Foreground="#FF6FCF97" ToolTip="Copiar e fechar (Enter / Ctrl+C)" AutomationProperties.Name="Copiar e fechar" />
+            </StackPanel>
+        </Border>
+
+        <!-- Barra de estilo: cores e espessura. -->
+        <Border x:Name="StyleBar" Background="{StaticResource ToolbarBackground}" CornerRadius="7"
+                Padding="6,4" Visibility="Collapsed" Cursor="Arrow">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel x:Name="ColorPanel" Orientation="Horizontal" />
+                <Border Style="{StaticResource ToolbarSeparator}" />
+                <RadioButton x:Name="SizeSmall" GroupName="Sizes" Style="{StaticResource ToolToggle}" ToolTip="Fino" AutomationProperties.Name="Espessura fina">
+                    <Ellipse Width="5" Height="5" Fill="White" />
+                </RadioButton>
+                <RadioButton x:Name="SizeMedium" GroupName="Sizes" Style="{StaticResource ToolToggle}" ToolTip="Médio" AutomationProperties.Name="Espessura média">
+                    <Ellipse Width="9" Height="9" Fill="White" />
+                </RadioButton>
+                <RadioButton x:Name="SizeLarge" GroupName="Sizes" Style="{StaticResource ToolToggle}" ToolTip="Grosso" AutomationProperties.Name="Espessura grossa">
+                    <Ellipse Width="14" Height="14" Fill="White" />
+                </RadioButton>
+                <Border Style="{StaticResource ToolbarSeparator}" />
+                <ToggleButton x:Name="FillToggle" Style="{StaticResource ToolButtonBase}" Content="&#xE91F;" ToolTip="Preencher formas" AutomationProperties.Name="Preencher formas" />
+            </StackPanel>
+        </Border>
+    </Canvas>
+</Window>

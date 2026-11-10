@@ -1,0 +1,37 @@
+# ---------------------------------------------------------------
+# Arquivos gerados pela compilação do .NET
+# ---------------------------------------------------------------
+bin/
+obj/
+
+# Executáveis publicados e instaladores
+# (distribua pelo GitHub Releases, não pelo repositório)
+publish/
+artifacts/
+*.exe
+*.msi
+*.pdb
+
+# ---------------------------------------------------------------
+# Configurações locais de IDEs e editores
+# ---------------------------------------------------------------
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userprefs
+
+# ---------------------------------------------------------------
+# Arquivos temporários e de log
+# ---------------------------------------------------------------
+*.log
+*.tmp
+*.bak
+
+# ---------------------------------------------------------------
+# Arquivos do sistema operacional
+# ---------------------------------------------------------------
+Thumbs.db
+desktop.ini
+.DS_Store

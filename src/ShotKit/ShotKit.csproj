@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- Windows 10 2004+ TFM: habilita as APIs WinRT (Windows.Media.Ocr). -->
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <UseWPF>true</UseWPF>
+    <!-- Usado apenas para o ícone da bandeja (NotifyIcon). -->
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <!-- Ícone do .exe (atalhos, Explorer, instalador); mesmo desenho de Services/AppIcon.cs. -->
+    <ApplicationIcon>ShotKit.ico</ApplicationIcon>
+    <AssemblyName>ShotKit</AssemblyName>
+    <RootNamespace>ShotKit</RootNamespace>
+    <Version>1.0.0</Version>
+    <Product>ShotKit</Product>
+    <!-- App é WPF: o DPI Per-Monitor V2 fica no manifesto (o aviso é do analisador WinForms). -->
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Evita ambiguidade entre tipos WPF e WinForms/System.Drawing. -->
+    <Using Remove="System.Windows.Forms" />
+    <Using Remove="System.Drawing" />
+  </ItemGroup>
+
+</Project>

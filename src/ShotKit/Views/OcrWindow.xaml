@@ -1,0 +1,33 @@
+<Window x:Class="ShotKit.Views.OcrWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShotKit - Texto extraído" Width="640" Height="520" MinWidth="400" MinHeight="320"
+        WindowStartupLocation="CenterScreen" Topmost="True" FontFamily="Segoe UI" FontSize="13">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MaxHeight="180" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border BorderBrush="#22000000" BorderThickness="1" Background="#FFF4F5F7">
+            <Image x:Name="Preview" Stretch="Uniform" StretchDirection="DownOnly" MaxHeight="178" />
+        </Border>
+
+        <DockPanel Grid.Row="1" Margin="0,10,0,6" LastChildFill="False">
+            <Label Content="_Idioma:" Target="{Binding ElementName=LanguageBox}" Padding="0,0,6,0" VerticalAlignment="Center" />
+            <ComboBox x:Name="LanguageBox" Width="260" VerticalAlignment="Center" />
+            <TextBlock x:Name="StatusText" DockPanel.Dock="Right" VerticalAlignment="Center" Foreground="#FF5F6B7A" />
+        </DockPanel>
+
+        <TextBox x:Name="ResultText" Grid.Row="2" AcceptsReturn="True" TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto" FontFamily="Segoe UI" FontSize="14" Padding="6"
+                 AutomationProperties.Name="Texto reconhecido" />
+
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button x:Name="CopyButton" Content="_Copiar texto" Style="{StaticResource PrimaryButton}" IsDefault="True" />
+            <Button x:Name="CloseButton" Content="_Fechar" Margin="8,0,0,0" Padding="16,6" MinWidth="90" IsCancel="True" />
+        </StackPanel>
+    </Grid>
+</Window>

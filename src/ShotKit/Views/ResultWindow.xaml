@@ -1,0 +1,27 @@
+<Window x:Class="ShotKit.Views.ResultWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ShotKit - Captura com rolagem" Width="760" Height="760" MinWidth="420" MinHeight="300"
+        WindowStartupLocation="CenterScreen" FontFamily="Segoe UI" FontSize="13" Background="#FFF4F5F7">
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Background="White" BorderBrush="#1A000000" BorderThickness="0,0,0,1" Padding="10,8">
+            <DockPanel LastChildFill="False">
+                <Button x:Name="SaveButton" Content="_Salvar" Style="{StaticResource PrimaryButton}" />
+                <Button x:Name="SaveAsButton" Content="Salvar _como..." Margin="6,0,0,0" Padding="12,5" />
+                <Button x:Name="CopyButton" Content="C_opiar" Margin="6,0,0,0" Padding="12,5" />
+                <Button x:Name="PinButton" Content="_Fixar na tela" Margin="6,0,0,0" Padding="12,5" />
+                <Button x:Name="OcrButton" Content="_Extrair texto" Margin="6,0,0,0" Padding="12,5" />
+                <TextBlock x:Name="InfoText" DockPanel.Dock="Right" VerticalAlignment="Center" Foreground="#FF5F6B7A" />
+            </DockPanel>
+        </Border>
+        <Border DockPanel.Dock="Bottom" x:Name="WarningBar" Background="#FFFFF4CE" Padding="10,6" Visibility="Collapsed">
+            <TextBlock x:Name="WarningText" TextWrapping="Wrap" Foreground="#FF5C4400" />
+        </Border>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Padding="12" Focusable="True">
+            <Border HorizontalAlignment="Center" VerticalAlignment="Top" BorderBrush="#33000000" BorderThickness="1">
+                <Image x:Name="ResultImage" Stretch="Uniform" StretchDirection="DownOnly"
+                       RenderOptions.BitmapScalingMode="HighQuality" />
+            </Border>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
